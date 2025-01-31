@@ -7,6 +7,7 @@
 using namespace std;
 
 list<User> users;
+string waitString;
 
 void _app();
 void _menu();
@@ -15,22 +16,31 @@ void _login();
 
 int main()
 {
-    _menu();
+    _menu();    
+    
+    //cleanup
+    for(auto& user : users)
+    {
+        delete &user;
+    }
+
     return 0;
 }
 
 
 void _app()
 {
-    cout << "Welcome to the app! \nHere there's nothing!" << endl;
+    system("reset");
+    cout << "Welcome to the app! \nThere's nothing here!" << endl;
     cout << "Press any key to logout..." << endl;
-    cin.get();
+    cin >> waitString;
 
     _menu();
 }
 
 void _menu()
 {
+    system("reset");
     cout << "1. Login" << endl;
     cout << "2. Register" << endl;
     cout << "3. Exit" << endl;
@@ -41,16 +51,17 @@ void _menu()
     switch (option)
     {
         case 1:
+            
             _login();
             break;
         case 2:
             _register();
             break;
         case 3:
-            break;
+            return;
         default:
             cout << "Invalid option!" << endl;
-            break;
+            _menu();
     }
 }
 
@@ -82,10 +93,14 @@ void _register()
     if (users.back().getLogin() != login && users.back().getPassword() != password)
     {
         cout << "Error registering user!" << endl;
+        cin >> waitString;
+
         return _register();   
     }
 
     cout << "User registered successfully!" << endl;
+    cin >> waitString;
+
     _menu();
 }
 
@@ -105,11 +120,15 @@ void _login()
         if(user.getLogin() == login && user.getPassword() == password)
         {
             cout << "User logged in successfully!" << endl;
+            cin >> waitString;
+
             _app();
         }
     }
 
     cout << "Login or password incorrect!" << endl;
-    _login();
+    cin >> waitString;
+    
+    _menu();
 }
 
