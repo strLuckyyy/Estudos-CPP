@@ -2,6 +2,7 @@
 #define USER_H
 
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -17,6 +18,19 @@ class User
     private:
         string login;
         string password;
+};
+
+class UsersManager
+{
+    public:
+        UsersManager() = default;
+        ~UsersManager() = default;
+
+        void addUser(User user);
+        void removeUser(string login);
+        bool userExists(string login);
+        bool loginMatches(string login, string password);
+        void showUsers();        
 };
 
 #endif
