@@ -2,7 +2,7 @@
 #define USER_H
 
 #include <string>
-#include <fstream>
+#include <list>
 
 using namespace std;
 
@@ -30,7 +30,13 @@ class UsersManager
         void removeUser(string login);
         bool userExists(string login);
         bool loginMatches(string login, string password);
-        void showUsers();        
+        void showUsers();
+    
+    private:
+        list<User> users;
+        
+        void saveUsers();
+        void loadUsers();
 };
 
 #endif

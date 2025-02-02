@@ -6,7 +6,7 @@
 
 using namespace std;
 
-list<User> users;
+list<User> users; // this will be deleted
 string waitString;
 
 void _app();
