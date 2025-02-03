@@ -26,17 +26,17 @@ class UsersManager
         UsersManager() = default;
         ~UsersManager() = default;
 
+        void loadUsers();
         void addUser(User user);
         void removeUser(string login);
-        bool userExists(string login);
         bool loginMatches(string login, string password);
         void showUsers();
     
     private:
         list<User> users;
-        
+
+        bool userExists(string login);
         void saveUsers();
-        void loadUsers();
 };
 
 #endif

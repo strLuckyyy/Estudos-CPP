@@ -6,18 +6,34 @@
 
 using namespace std;
 
+string waitString;
+
 
 void UsersManager::addUser(User user)
 {
+    
+
+    if(userExists(user.getLogin()))
+    {
+        cout << "User already exists!" << endl;
+        cin >> waitString;
+
+        return;
+    }
+
     users.insert(users.end(), user);
 
     if(users.back().getLogin() != user.getLogin() && users.back().getPassword() != user.getPassword())
     {
         cout << "Error registering user!" << endl;
+        cin >> waitString;
+
         return;
     }
 
     cout << "User registered successfully!" << endl;
+    saveUsers();
+    cin >> waitString;
 }
 
 void UsersManager::removeUser(string login)
@@ -27,12 +43,13 @@ void UsersManager::removeUser(string login)
         if (it->getLogin() == login)
         {
             users.erase(it);
+            saveUsers();
             break;
         }
     }
 
-
     cout << "User not found!" << endl;
+    cin >> waitString;
 }
 
 bool UsersManager::userExists(string login)
@@ -63,6 +80,19 @@ bool UsersManager::loginMatches(string login, string password)
 
 void UsersManager::showUsers()
 {
+    if (users.empty())
+    {
+        loadUsers();
+
+        if(users.empty())
+        {
+            cout << "No users registered!" << endl;
+            cin >> waitString;
+
+            return;
+        }
+    }
+
     for (User user : users)
     {
         cout << "Login: " << user.getLogin() << endl;
@@ -80,10 +110,13 @@ void UsersManager::saveUsers()
     }
 
     file.close();
+    loadUsers();
 }
 
 void UsersManager::loadUsers()
 {
+    users.clear();
+
     fstream file("users.txt", ios::in);
 
     string login, password;
